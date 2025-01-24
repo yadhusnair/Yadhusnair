@@ -1,0 +1,1127 @@
+[cameras]
+front = "Intel Realsense, front-facing camera"
+rear = "Intel Realsense, rear-facing camera"
+
+[control_module]
+route_application = "v2_wps"
+sherpa_application = "trolley_ops"
+
+[core_odometer]
+buffer_len = 500
+
+[drivers]
+use_gstreamer = true
+[[drivers.wcam]]
+device = "/dev/video2"
+w = 640
+h = 480
+pixfmt = 0
+fps = 30
+lpdev = "/dev/video31"
+
+[ekf]
+P_sigma = 0.3
+max_delay = 30
+measurement_types = [ "yelli",]
+motion_type = "wheel_enc"
+
+[epo]
+debug_flag = false
+
+[error_data]
+error_data_duration = 5
+
+[exceptions]
+lidar = false
+motors = false
+
+[fleet]
+TZ = "Asia/Kolkata"
+api_key = "lifterv2-03-dynalog"
+chassis_number = "lifterv2-03-dynalog"
+customer = "val"
+fleet_name = "loop_8_rf"
+fm_cert_file = "{mule_root}/config/fm_rev_proxy_cert.pem"
+fm_file_download_timeout = 120
+fm_request_timeout = 10
+ip = "192.168.6.12"
+location = "banglr"
+port = 8001
+site = "hall_1"
+soc_threshold = "-1"
+
+[logging]
+debug = 1
+exclude = [ "lidarx", "camera",]
+include = [ "multi_camera_gstreamer", "multi_depth_rust",]
+
+[orchestrator]
+add_monitors = true
+check_redis_aof = true
+default_map = "loop_8_rf"
+default_mode = "fleet"
+perform_recovery = false
+recorder_folder = "/data"
+recovery_mode = "fleet"
+replay = [ "replayer",]
+replayer_folder = "/tmp/recorded_data"
+
+[peripherals]
+monitor_unhitch_current = true
+unhitch_time = 20
+
+[pg_db]
+password = "password"
+user_name = "postgres"
+
+[ps4_drive]
+manual_factor = 0.5
+
+[redis]
+port = 6300
+url = "redis://localhost:6300"
+
+[remote_drive]
+address = "10.9.0.104"
+wait_for_yelli = false
+webhook = "https://hooks.slack.com/services/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"
+
+[rpc]
+port = 9876
+
+[runaway_monitor]
+batch_interval_millis = 50
+encoder_error_weight = 0.25
+encoder_error_window_length = 30
+exception_event_horizon = 1
+imu_timeout_millis = 100
+mag_factor = 1
+max_exception_events = 15
+max_score = 2.0
+max_steer_score = 45
+max_wait_time = 0.1
+min_reverse_ratio = 0.2
+min_score = 0.1
+omega_deviation = 500
+overshoot_window_time = 2.5
+rejection_threshold = 1.0
+runaway_debug_log = false
+score_epsilon = 2
+stall_window_time = 3.5
+steer_window_time = 3.0
+
+[simulator]
+add_noise = false
+add_obstacle = false
+dispatch_button_wait = 2
+noise_parameter_alpha = 0.2
+obstacle_probability_score = 4
+
+[sound]
+obstacle_alert_alarm = 2
+voice_alerts = false
+volume = 0.0
+
+[table]
+table_height = 0.5
+
+[table_dims]
+length = 2.0
+width = 2.0
+
+[telemetry]
+webhook = "https://hooks.slack.com/services/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"
+
+[vehicle]
+default_turn_radius = 2.5
+lidar_type = "Livox"
+vehicle_type = "lifter"
+
+[comms_orchestrator.commands]
+error_data_manager = [ "poetry", "run", "python", "mule_comms/error_data_manager.py",]
+fleet_bridge = [ "poetry", "run", "python", "mule_comms/fleet_bridge.py",]
+hmi_bridge = "off"
+send_event_updates = [ "poetry", "run", "python", "mule_comms/send_event_updates_to_fm.py",]
+
+[control.avoidance]
+avoidance_padding = 0.2
+obs_check_time = 2.0
+obstacle_avoidance = false
+obstacle_count_threshold = 5
+offset_resolution = 0.3
+slow_dist = 5.0
+stop_dist = 4.5
+switch_avoidance_tracker_regime = true
+y_offset = 2.0
+
+[control.common]
+beta = 0.05
+can_recv_topic = "mule.sensor.can_received"
+can_send_topic = "mule.sensor.can_send"
+drive_topic = "mule.actuator.drive"
+dwa_enabled = false
+fit_curve_enabled = false
+gamma = 0.9
+hitch_drop_dist = 0.2
+inplace_termination_threshold = 15
+k_max = 0.75
+kd = 1.0
+kp = 0.25
+lift_topic = "mule.actuator.lifter"
+lookahead = 7.0
+max_cte = 0.5
+max_theta_error = 45
+min_slow_coeff = 0.7
+mpc_enabled = true
+ramp_dist = 3.0
+station_dist_thresh = 0.5
+station_theta_thresh = 0.2
+termination_threshold = 200
+use_fast_predict_traj = true
+use_steer_and_brake = false
+wait_forever = true
+wmax = 0.4
+
+[control.dynamic_router]
+avge_speed = 1.0
+cross_station_side_ext = 2.5
+debug_log = false
+default_localization = "mule.slam.yelli_odo"
+default_tracker = "mpc"
+default_tracker_id = 0
+exl_zone_buffer_length = 1.0
+exl_zones_lane_width = 2.5
+generate_ez_file = false
+graph_object = true
+inplace_cost = 100
+junc_gate_dist = 1.75
+max_turn_radius = 1.0
+min_turn_radius = 0.25
+mule_length = 1.2
+park_lanechange_hook_dist = 2.0
+park_straight_hook_dist = 0.1
+park_straight_hook_dist_uturn = 2.0
+park_turn_radius = 0.25
+parking_localization = "mule.slam.yelli_odo"
+parking_tracker = "mpc"
+parking_tracker_id = 0
+precision_park_distance = 1.0
+repark_seg_dist = 0.5
+reverse_action_cost = 2.5
+station_zone_rear_ext = 2.0
+use_2_stage_docking = true
+verify_wpsj_checksum = false
+
+[control.inplace]
+w_max = 0.15
+w_min = 0.1
+
+[control.lifter_ops]
+enable_table_detection = false
+
+[control.open_loop]
+max_cycles = 2
+sleep_time = 3
+steering_angle = 45
+test_mode = "cycles_test"
+total_run_time = 5500
+
+[control.policy]
+apply_dist = 3.0
+creep_speed = 1.0
+debug_log = false
+enforce_low_speed_zones = true
+enforce_visa = true
+extension = 0
+look_ahead = 3.0
+low_speed_zone_speed_factor = 0.7
+max_zois = 2
+min_lidar_exceptions = 2
+min_yaw_change = 70
+monitor_tote = false
+occ_value = 0.61
+pad_width = 0.4
+ramp_dist = 3.0
+safe_dist = 0.6
+slow_dist = 1.5
+stop_dist = 1.0
+transit_abs_release_factor = 2.0
+transit_safe_dist = 1.0
+unc_min = 0.45
+unc_thresh = 0.3
+visa_dep_factor = 0.6
+visa_req_to_fm = true
+
+[control.precision_parking]
+cte_threshold = 0.04
+te_threshold = 0.04
+
+[control.self_test]
+forward_distance = 3.0
+inplace_angle = 20
+
+[control.sim]
+end_station = ""
+intermediate_stations = []
+map = ""
+round_trip = false
+start_station = ""
+total_trips = 1
+
+[control.speed_profiles]
+angular_acc = 0.05
+linear_acc = 0.025
+min_omega = 0.01
+min_speed = 0.3
+slow_straight = 0.4
+slow_turn = 0.25
+straight = 0.7
+turn = 0.3
+
+[control.tracker]
+WEIGHT_ANGULAR_ACCEL = 400.0
+WEIGHT_CTE = 10000.0
+WEIGHT_K_CONTINUITY = 40000.0
+WEIGHT_K_SMOOTHNESS = 3000.0
+WEIGHT_TARGET_VEL = 100.0
+WEIGHT_TE = 5000.0
+WEIGHT_V_CONTINUITY = 40000.0
+WEIGHT_V_SMOOTHNESS = 3000.0
+beta = 0.05
+fit_curve_enabled = false
+gamma = 0.9
+k_max = 0.75
+kd = 1.0
+kp = 0.25
+max_cte = 0.5
+max_theta_error = 45
+min_slow_coeff = 1.0
+mpc_enabled = true
+mpc_ftol = 0.001
+mpc_ramp_down = 2.5
+mpc_ramp_up = 2.5
+ramp_dist = 3.0
+termination_threshold = 50
+use_fast_predict_traj = true
+use_steer_and_brake = true
+v_max = 0.8
+v_min = 0.35
+wait_forever = true
+wmax = 0.4
+
+[device_monitor.camera_front]
+max_timeout = 60
+pause_timeout = 2
+
+[device_monitor.camera_rear]
+max_timeout = 60
+pause_timeout = 2
+
+[device_monitor.devices_to_monitor]
+generic = [ "wheel_enc", "lidar", "powerboard", "camera",]
+xt = [ "wheel_enc", "lidar", "camera",]
+
+[device_monitor.lidar]
+max_timeout = 60
+pause_timeout = 2
+
+[device_monitor.powerboard]
+max_timeout = 60
+pause_timeout = 2
+
+[device_monitor.wheel_enc]
+max_timeout = 60
+pause_timeout = 2
+
+[drivers.actuator]
+actuator_tolerance = 50
+
+[drivers.indicators]
+leds = 56
+segment_leds = 14
+
+[drivers.lidar]
+use_livox = true
+
+[drivers.livox]
+num_lidars = 2
+packets_per_frame = 1
+publish_bunched_packets = true
+publish_transformed = false
+
+[drivers.ouster]
+horizontal_angles = 1024
+horizontal_offset = 0
+vertical_beams = 32
+
+[ekf.vw]
+debug = false
+dv_th = 0.25
+dw_th = 0.75
+initial_sigma_v = 0.6
+initial_sigma_w = 0.5
+initial_update_models = [ "dual_enc", "gyro",]
+mahalanobis_threshold = 3.5
+max_cov_threshold = 3
+motion_model_type = "constant_vw"
+valid_models = [ "dual_enc", "gyro", "gyro_left_enc", "gyro_right_enc",]
+
+[loadcell.trolley]
+trolley_pull_filter = 1
+trolley_pull_threshold = 30
+
+[orchestrator.camera]
+exclude_modes = [ "simulation", "off",]
+recording = true
+
+[orchestrator.can_sidekick]
+core = false
+exclude_modes = [ "simulation", "off",]
+
+[orchestrator.can_sidekick_v4]
+core = false
+exclude_modes = [ "simulation", "off",]
+
+[orchestrator.can_sidekick_with_actuator]
+core = false
+exclude_modes = [ "simulation", "off",]
+
+[orchestrator.commands]
+cam = [ "python", "{mule_root}/ati/drivers/webcam_gstreamer.py",]
+check_calibration_data = [ "python", "{mule_root}/ati/perception/calibration/check_calibration_data.py",]
+control_module = [ "python", "{mule_root}/ati/control/bridge/control_module.py",]
+control_open_loop = [ "python", "{mule_root}/ati/control/scripts/open_loop.py",]
+control_ps4 = [ "python", "{mule_root}/ati/control/misc/ps4_control.py",]
+control_ps4_policy = [ "python", "{mule_root}/ati/control/misc/ps4_control.py", "--obs_policy_flag",]
+control_self_test = [ "python", "{mule_root}/ati/control/scripts/self_test.py",]
+control_v4_sim = [ "python", "{mule_root}/simulators/mule_simulator/fm_control_sim.py",]
+core_odometer = [ "python", "{mule_root}/ati/scripts/core_odometer.py",]
+core_recorder = [ "python", "{mule_root}/ati/scripts/core_recorder.py",]
+dbus_ps4_drive = [ "python", "{mule_root}/ati/drivers/dbus_ps4.py",]
+device_monitor = "off"
+drivable_local = [ "python", "{mule_root}/ati/perception/lidar/drivable_obst.py", "--publish_local",]
+drivable_region = [ "python", "{mule_root}/ati/perception/lidar/drivable_obst.py",]
+ekf_vw = [ "{mule_root}/bazel-bin/ati/perception/ekf/vw_ekf/vw_ekf",]
+health = [ "python", "{mule_root}/ati/drivers/health.py",]
+inplace_auto = [ "python", "{mule_root}/ati/control/scripts/inplace.py",]
+load_cell = [ "python", "{mule_root}/ati/control/instrumentation/load_cell.py",]
+load_cell_trolley = [ "python", "{mule_root}/ati/peripherals/trolley_loadcell.py",]
+open_loop_lifter_test = [ "python", "{mule_root}/ati/control/scripts/open_loop_lifter_test.py",]
+open_loop_steering = [ "python", "{mule_root}/ati/control/scripts/open_loop_steering.py",]
+peripherals = [ "python", "{mule_root}/ati/peripherals/peripherals.py",]
+ps4_control = [ "python", "{mule_root}/ati/control/misc/ps4_control.py",]
+ps4_controller = [ "python", "{mule_root}/ati/drivers/ps4_dbus_controller.py",]
+ps4_driver = [ "python", "{mule_root}/ati/drivers/ps4/ps4_driver.py", "--ps4_id_check_flag",]
+ps4_driver_id_check = [ "python", "{mule_root}/ati/drivers/ps4/ps4_driver.py", "--ps4_id_check_flag",]
+ps4_move_mule = [ "python", "{mule_root}/ati/perception/utils/move_ps4_mule.py",]
+ps4_obst = [ "python", "{mule_root}/ati/drivers/ps4_obstacle.py",]
+ps4_tag_setup = [ "python", "{mule_root}/ati/perception/utils/tag_ps4_setup.py",]
+recorder = [ "python", "{mule_root}/ati/scripts/record_sensors.py",]
+remote_cam = [ "python", "{mule_root}//ati/remote_drive/remote_camera.py", "ego_cam",]
+remote_drive = [ "python", "{mule_root}//ati/remote_drive{mule_root}.py",]
+remote_view = [ "python", "{mule_root}//ati/remote_drive{mule_root}.py", "--spectator_only",]
+runaway_monitor = [ "python", "{mule_root}/ati/control/safety/runaway_monitor.py",]
+simulation_peripherals = [ "python", "{mule_root}/simulators/mule_simulator/simulation_peripherals.py",]
+system_monitor = [ "python", "{mule_root}/ati/safety/system_monitor.py",]
+table_detection = "off"
+tag_pub = [ "python", "{mule_root}/ati/perception/utils/tag_pub.py",]
+telemetry = [ "python", "{mule_root}/ati/telemetry.py",]
+teleops_drive = [ "python", "{mule_root}/ati/drivers/teleops_driver.py",]
+tote_monitor = [ "python", "{mule_root}/ati/control/misc/tote_monitor.py",]
+unhitch_monitor = [ "python", "{mule_root}/ati/control/misc/unhitch_monitor.py",]
+web_bridge = [ "python", "{mule_root}/ati/web_bridge_new.py",]
+webctl = [ "python", "{mule_root}//ati/remote_drive/webctl.py",]
+yelli = [ "python", "-m", "ati.slam.yelli_refactored",]
+yelli_manual = [ "python", "-m", "ati.slam.yelli_refactored", "--manual",]
+yelli_old = [ "python", "-m", "ati.slam.yelli",]
+
+[orchestrator.delfino]
+core = true
+
+[orchestrator.indicators]
+core = true
+ignore_errors = true
+
+[orchestrator.lidar]
+exclude_modes = [ "simulation", "off",]
+
+[orchestrator.lidar_livox]
+exclude_modes = [ "simulation", "off",]
+
+[orchestrator.modes]
+assist = [ "ps4_driver", "drivable_region", "recorder", "yelli_manual", "control_ps4",]
+assisted_manual = [ "ps4_driver_id_check", "drivable_local", "recorder", "yelli_manual", "control_ps4_policy",]
+assisted_manual_old_drv = [ "drivable_region", "recorder", "yelli_manual", "ps4_obst",]
+auto = [ "yelli", "drivable_region", "control_dev", "recorder",]
+calibrate = [ "check_calibration_data", "recorder",]
+core = [ "core_recorder", "core_odometer", "peripherals", "system_monitor",]
+customer = "a"
+fleet = [ "yelli", "drivable_region", "control_module", "recorder", "table_detection",]
+fleet_name = "TIEI_DemoIntrnl_3rdCase"
+location = "c"
+manual = [ "ps4_control", "ps4_driver", "recorder", "yelli_manual",]
+monitors = [ "runaway_monitor", "device_monitor",]
+old_manual = [ "recorder", "yelli_manual", "dbus_ps4_drive",]
+ps4_manual = [ "yelli_manual", "ps4_controller", "ps4_move_mule", "recorder",]
+ps4_setup_tags = [ "yelli_manual", "ps4_controller", "ps4_move_mule", "ps4_tag_setup",]
+remote = [ "remote_drive", "yelli_manual", "drivable_region", "recorder",]
+self_test = [ "yelli", "drivable_region", "control_self_test", "recorder",]
+simulation = [ "recorder", "control_v4_sim", "simulation_peripherals",]
+site = "b"
+teleops = [ "drivable_region", "yelli_manual", "teleops_drive", "recorder",]
+test_open_loop = [ "recorder", "open_loop_lifter_test",]
+
+[orchestrator.powerboard]
+core = true
+
+[orchestrator.sound]
+core = true
+ignore_errors = true
+
+[orchestrator.vision]
+exclude_modes = [ "simulation", "off",]
+
+[perception.drivable]
+alt_shooting_dth = 0.1
+alt_shooting_fix = true
+apply_tilt_correction = true
+debug = true
+grid_shape = [ 8.0, 8.0,]
+grid_size = 0.05
+mask_mule = true
+mask_mule_ypad = [ 0.05, 0.05,]
+min_pts = 10
+use_cuda = true
+
+[perception.table_detection]
+ALGO = "model_1"
+
+[perf.tags]
+cpu_temp = "thermal_fan_est"
+wifi_temp = "iwlwifi_1"
+
+[slam.yelli]
+MAX_IMU_PER_FRAME = 28
+MIN_IMU_PER_FRAME = 14
+acc_var_threshold = 0.001
+div_threshold = 0.7
+do_partial_slam = false
+do_reinit_div = true
+hierarchical_search_levels = 3
+imu_var_threshold = 0.5
+initial_pose_diff_threshold = [ 100.0, 100.0,]
+level_lookup_type = "odds"
+localization_z_slice = [ 0.0, 9.0,]
+map_grid_uint8 = true
+max_continuous_missing_sectors = 10
+max_dist = 60
+max_missing_sector_threshold = 20
+min_dist = 0.2
+min_points = 500
+update_misses = false
+use_cuda = true
+use_ekf_odo = true
+use_hierarchical_search = false
+use_imu_id = "0"
+use_tag_init = false
+
+[sound.voice_msgs]
+en_IN = true
+en_US = false
+es = false
+es_en_US = false
+hi = false
+hi_en_IN = false
+kn = false
+kn_en_IN = false
+kn_hi_en_IN = false
+
+[vehicle.parameters]
+BODY_FRONT_OVERHANG = 0.6035
+BODY_LENGTH = 1.207
+BODY_WIDTH = 0.811
+BRAKE_KD = 0.0
+BRAKE_KI = 48
+BRAKE_KP = 7
+BRAKE_PID_RESET_TICKS = 20
+ENCODER_TIME_PERIOD = 0.01
+FRONT_ENCODER_RESOLUTION = 4096
+GEAR_RATIO = 9
+HUB_ALPHA = 0.98
+HUB_INTEGRAL_MAX = 50.0
+HUB_KD = 0.0
+HUB_KI = 35
+HUB_KP = 40
+HUB_WHEEL_RADIUS = 0.078
+INTERMEDIATE_BRAKE_PWM = 250
+LIDAR_OFFSET = 0.0
+MAX_CURRENT_PEAKS = 300
+MAX_CURRENT_WINDOW = 500
+MAX_DRIVE_CURRENT = 30
+MAX_PS4_ANGLE = 45
+MAX_PS4_FORWARD_SPEED = 0.6
+MAX_PS4_REVERSE_SPEED = 0.4
+MAX_TOT_CURRENT = 30
+NEGATIVE_ERROR_SCALEDOWN = 3
+OUTER_BODY_PADDING = 0.1
+PARKING_BRAKE_PWM = 2000
+REAR_ANGLE_OFFSET = 0.0
+REAR_INTEGRAL_MAX = 500.0
+REAR_KD = 0.0
+REAR_KI = 15
+REAR_KP = 45
+ROLLBACK_ASSIST = 2
+SHERPA_LIFTER = 1
+SHERPA_LITE = 0
+SHERPA_PIVOT = 0
+SHERPA_TUG = 0
+TRACK_WIDTH = 0.579
+UPSLOPE_MAX = 1000
+UPSLOPE_STEP = 20
+WHEELBASE = 0.0
+WHEEL_RADIUS = 0.078
+can_interface = "can0"
+can_node_timeout = 0.2
+can_serial_baudrate = 500000
+can_serial_device = "/dev/can_roboteq"
+enforce_endstop = true
+heartbeat_timeout = 0.03
+inplace_side_padding = 0.1
+outlier_rejection_buffer = 5
+outlier_rejection_threshold = 40
+serial_timeout = 30
+table_padding = [ 0.25, 0.0, 0.0,]
+use_gyro_for_encoder = ""
+
+[vehicle.physical]
+lidar_height = 0.0
+strut_width = -1
+
+[control.TanTracker.default]
+beta = 0.05
+gamma = 0.9
+k_max = 0.75
+kd = 1.0
+kp = 0.25
+lookahead = 7.0
+max_cte = 0.5
+max_theta_error = 45
+min_slow_coeff = 0.7
+ramp_dist = 3.0
+termination_threshold = 50
+wmax = 0.4
+
+[control.dwa.default]
+acc_max = 0.25
+cte_lookahead = 4
+cte_threshold = 1.0
+cte_threshold_min = 0.75
+cte_weight = 10.0
+dt = 0.1
+front_overhang = 0
+front_pad_factor = 0.02
+k_max = 1.5
+lat_acc_max = 0.75
+min_dist = 2.8
+obstacle_lookahead = 30
+obstacle_weight = 2.0
+padding = 0.0
+ramp_down = 3.5
+rear_pad_factor = 0.05
+side_pad_factor = 0.1
+slow_dist = 3.0
+termination_threshold = 350
+theta_error_weight = 3.0
+v_max = 1.0
+v_min = 0.35
+v_res = 1
+velocity_weight = 1.0
+w_acc_weight = 0.2
+w_dot_max = 1.5
+w_max = 1.5
+w_res = 150
+
+[control.inplace.default]
+dt = 0.1
+duration = 15
+init_jump_angle = 10
+kp = 0.5
+lookahead_angle = 20
+max_cte = 0.5
+test_angle = -90
+threshold = 4
+w_max = 0.5
+w_min = 0.3
+
+[control.mpc.avoidance]
+WEIGHT_ANGULAR_ACCEL = 100.0
+WEIGHT_CTE = 75000
+WEIGHT_K_CONTINUITY = 40000.0
+WEIGHT_K_SMOOTHNESS = 3000.0
+WEIGHT_TARGET_VEL = 100.0
+WEIGHT_TE = 8000
+WEIGHT_V_CONTINUITY = 40000.0
+WEIGHT_V_SMOOTHNESS = 3000.0
+k_max = 3.0
+mpc_cost_log = false
+mpc_ramp_down = 3.0
+mpc_ramp_up = 3.0
+v_max = 0.5
+v_min = 0.28
+
+[control.mpc.default]
+CTE_DB_THRESH = 0.0
+TE_DB_THRESH = 0.0
+WEIGHT_ANGULAR_ACCEL = 400.0
+WEIGHT_CTE = 10000.0
+WEIGHT_CTE_TERMINAL = 10000.0
+WEIGHT_K_CONTINUITY = 1000
+WEIGHT_K_SMOOTHNESS = 3000.0
+WEIGHT_TARGET_VEL = 100.0
+WEIGHT_TE = 5000.0
+WEIGHT_TE_TERMINAL = 5000.0
+WEIGHT_V_CONTINUITY = 500
+WEIGHT_V_SMOOTHNESS = 3000.0
+frequency = 1
+k_max = 1.5
+mpc_dt = 0.1
+mpc_epochs = 10
+mpc_frequency = 4
+mpc_ramp_down = 3.5
+mpc_ramp_up = 3.5
+mpc_skip = 1
+ramp_v_min = 0.4
+v_max = 0.6
+v_min = 0.3
+
+[control.mpc.precision_parking]
+CTE_DB_THRESH = 0.0
+TE_DB_THRESH = 0.0
+WEIGHT_ANGULAR_ACCEL = 400.0
+WEIGHT_CTE = 10000.0
+WEIGHT_CTE_TERMINAL = 10000.0
+WEIGHT_K_CONTINUITY = 1000
+WEIGHT_K_SMOOTHNESS = 3000.0
+WEIGHT_TARGET_VEL = 100.0
+WEIGHT_TE = 5000.0
+WEIGHT_TE_TERMINAL = 5000.0
+WEIGHT_V_CONTINUITY = 500
+WEIGHT_V_SMOOTHNESS = 3000.0
+frequency = 1
+k_max = 1.5
+mpc_dt = 0.1
+mpc_epochs = 10
+mpc_frequency = 4
+mpc_ramp_down = 3.5
+mpc_ramp_up = 3.5
+mpc_skip = 1
+ramp_v_min = 0.4
+v_max = 0.15
+v_min = 0.12
+
+[control.mpc.turn]
+CTE_DB_THRESH = 0.0
+TE_DB_THRESH = 0.0
+WEIGHT_ANGULAR_ACCEL = 400.0
+WEIGHT_CTE = 10000.0
+WEIGHT_CTE_TERMINAL = 10000.0
+WEIGHT_K_CONTINUITY = 40000.0
+WEIGHT_K_SMOOTHNESS = 3000.0
+WEIGHT_TARGET_VEL = 100.0
+WEIGHT_TE = 5000.0
+WEIGHT_TE_TERMINAL = 5000.0
+WEIGHT_V_CONTINUITY = 40000.0
+WEIGHT_V_SMOOTHNESS = 3000.0
+frequency = 1
+k_max = 3.0
+mpc_dt = 0.1
+mpc_epochs = 10
+mpc_ramp_down = 3.5
+mpc_ramp_up = 3.5
+mpc_skip = 1
+ramp_v_min = 0.4
+v_max = 0.3
+v_min = 0.15
+
+[control.open_loop.staircase_steering]
+max_steer_angle = 90
+num_steps = 10
+
+[control.tracker.avoidance]
+allow_replanning = false
+allow_replanning_end_of_path = false
+max_replans = 2
+max_straight_offset = 0.5
+max_turn_offset = 0.3
+max_wait_period = 40
+replan_buffer = 0.15
+replan_period = 15
+replan_trigger_period = 5
+replan_window = 2500
+
+[control_module.regimes.default]
+is_precise_action = false
+is_special_regime = false
+localization = "mule.slam.yelli_odo"
+regime_name = "default"
+tracker = "mpc"
+tracker_regime = "default"
+
+[control_module.regimes.high_speed]
+is_precise_action = false
+is_special_regime = false
+localization = "mule.slam.yelli_odo"
+regime_name = "default"
+tracker = "mpc"
+tracker_regime = "default"
+
+[control_module.regimes.inplace]
+is_precise_action = false
+is_special_regime = false
+localization = "mule.slam.yelli_odo"
+regime_name = "inplace"
+tracker = "inplace"
+tracker_regime = "default"
+
+[control_module.regimes.lifter_parking]
+is_precise_action = false
+is_special_regime = false
+localization = "mule.slam.yelli_odo"
+regime_name = "lifter_parking"
+tracker = "mpc"
+tracker_regime = "default"
+
+[control_module.regimes.low_speed]
+is_precise_action = false
+is_special_regime = false
+localization = "mule.slam.yelli_odo"
+regime_name = "default"
+tracker = "mpc"
+tracker_regime = "default"
+
+[control_module.regimes.precision_parking]
+is_precise_action = true
+is_special_regime = true
+localization = "mule.slam.yelli_odo"
+regime_name = "precision_parking"
+tracker = "mpc"
+tracker_regime = "precision_parking"
+
+[control_module.regimes.unparking]
+is_precise_action = false
+is_special_regime = true
+localization = "mule.slam.yelli_odo"
+regime_name = "unparking"
+tracker = "mpc"
+tracker_regime = "default"
+
+[drivers.indicators.sides]
+fl = [ 0, 14,]
+fr = [ 42, 56,]
+rl = [ 14, 28,]
+rr = [ 28, 42,]
+
+[drivers.livox.0]
+serial_number = "47MDM750020327"
+trim = "Q3"
+
+[drivers.livox.1]
+serial_number = "47MDM750020322"
+trim = "Q3"
+
+[drivers.rgbd.front]
+HDR = false
+color_loopback_device = "/dev/video31"
+depth_file = "out/front_depth_image.data"
+depth_loopback_device = "/dev/video32"
+device_serial = "233722074019"
+filters = []
+fps = 15
+height = 480
+laser_power = 150
+max_depth_record = 5.0
+mean_intensity = 1000
+publish_v4l2_depth = true
+secondary_color_loopback_device = "/dev/video35"
+ts_file = "out/front_ts.data"
+visual_preset = "High Accuracy"
+width = 640
+
+[drivers.rgbd.rear]
+HDR = false
+color_loopback_device = "/dev/video33"
+depth_file = "out/rear_depth_image.data"
+depth_loopback_device = "/dev/video34"
+device_serial = "233722072980"
+filters = []
+fps = 15
+height = 480
+laser_power = 150
+max_depth_record = 5.0
+mean_intensity = 1000
+publish_v4l2_depth = true
+ts_file = "out/rear_ts.data"
+visual_preset = "High Accuracy"
+width = 640
+
+[ekf.measurement_model.yelli]
+sigma_theta = 0.1
+sigma_x = 0.06
+sigma_y = 0.06
+
+[ekf.motion_model.wheel_odo]
+alt_Q = [ [ 0.5, 0.0, 0.0,], [ 0.0, 0.5, 0.0,], [ 0.0, 0.0, 0.5,],]
+deviation_threshold = 0.05
+sigma = 2.1
+
+[orchestrator.camera.commands]
+cam_recorder = [ "python", "{mule_root}/ati/drivers/realsense/cam_recorder.py",]
+cam_rgbd = [ "python", "{mule_root}/ati/drivers/realsense/realsense_gstreamer_multi.py",]
+
+[orchestrator.camera.recovery]
+cam_rgbd = [ "python", "{mule_root}/ati/drivers/realsense/cam_driver_recovery.py",]
+
+[orchestrator.can_sidekick.commands]
+can_driver_roboteq = [ "stdbuf", "-oL", "-eL", "/app/bazel-bin/ati/drivers/can_drivers/can_driver_roboteq", "--logbufsecs=0",]
+can_sidekick = "off"
+lifter_actuator_driver = [ "python", "/app/ati/drivers/can_python_drivers/can_driver_liftingv2.py",]
+serial_can_driver = [ "stdbuf", "-oL", "-eL", "/app/bazel-bin/ati/drivers/can_generic/can_serial", "--logbufsecs=0",]
+
+[orchestrator.can_sidekick_v4.commands]
+can_driver_roboteq = [ "stdbuf", "-oL", "-eL", "/app/bazel-bin/ati/drivers/can_drivers/can_driver_roboteq", "--logbufsecs=0",]
+can_native = [ "stdbuf", "-oL", "-eL", "{mule_root}/bazel-bin/ati/drivers/can_generic/can_native", "--logbufsecs=0",]
+lifter_actuator_driver = [ "python", "/app/ati/drivers/can_python_drivers/can_driver_liftingv2.py",]
+
+[orchestrator.can_sidekick_with_actuator.commands]
+can_sidekick = [ "stdbuf", "-oL", "-eL", "{mule_root}/bazel-bin/ati/drivers/can_serial_comms/can_serial_comms", "--logbufsecs=0",]
+lifter_actuator_driver = [ "python", "{mule_root}/ati/drivers/can_python_drivers/can_driver_liftingv2.py",]
+
+[orchestrator.delfino.commands]
+delfino = [ "{mule_root}/bazel-bin/ati/drivers/delfino/delfino",]
+
+[orchestrator.delfino.recovery]
+delfino = [ "python", "{mule_root}/ati/drivers/delfino_recovery.py",]
+
+[orchestrator.epo.commands]
+epo = [ "python", "{mule_root}/epo/epo_v2.py",]
+
+[orchestrator.indicators.commands]
+neopixel_indicators = [ "python", "{mule_root}/ati/drivers/neopixel_indicators.py",]
+
+[orchestrator.lidar.commands]
+lidar = [ "{mule_root}/bazel-bin/ati/drivers/ouster_v2_5/ouster_v2_5", "--sensor", "192.168.1.100",]
+
+[orchestrator.lidar.recovery]
+lidar = [ "python", "{mule_root}/ati/drivers/lidar_recovery.py",]
+
+[orchestrator.lidar_livox.commands]
+lidar_livox = [ "stdbuf", "-oL", "-eL", "{mule_root}/bazel-bin/ati/drivers/livox_m360/livox2", "--logbufsecs=0",]
+
+[orchestrator.powerboard.commands]
+powerboard = [ "python", "{mule_root}/ati/drivers/powerboard.py",]
+
+[orchestrator.powerboard.recovery]
+powerboard = [ "python", "{mule_root}/ati/drivers/powerboard_recovery.py",]
+
+[orchestrator.sound.commands]
+sound = [ "bash", "{mule_root}/ati/drivers/sound/run_sound.sh",]
+
+[orchestrator.vision.commands]
+pallet_detection = [ "python3", "{mule_root}/ati/perception/pallet_detection/pallet_detect.py",]
+
+[perception.drivable.lidar]
+max_z_diff_absolute = 0.07
+max_z_diff_relative = 0.04
+xlim = [ -5, 5,]
+ylim = [ -2, 6,]
+zlim = [ -2, 2,]
+
+[perception.rgbd.front]
+aligned = true
+depth_scale = 1000
+rgb_camera_matrix = [ [ 617.54, 0.0, 318.655,], [ 0.0, 617.5625, 244.1013,], [ 0.0, 0.0, 1.0,],]
+
+[perception.rgbd.rear]
+aligned = true
+depth_scale = 1000
+rgb_camera_matrix = [ [ 617.54, 0.0, 318.655,], [ 0.0, 617.5625, 244.1013,], [ 0.0, 0.0, 1.0,],]
+
+[slam.yelli.forward_search]
+num_t = 41
+num_x = 13
+num_y = 15
+theta = [ -0.12, 0.12,]
+x = [ -0.06, 0.06,]
+y = [ -0.04, 0.26,]
+
+[slam.yelli.hierarchical_search_spaces]
+angle_search_window = [ -0.5, 0.5,]
+x_search_window = [ -1.5, 1.5,]
+y_search_window = [ -1.5, 1.5,]
+
+[slam.yelli.imu_forward_search]
+num_t = 21
+num_x = 13
+num_y = 15
+theta = [ -0.06, 0.06,]
+x = [ -0.06, 0.06,]
+y = [ -0.04, 0.26,]
+
+[slam.yelli.imu_inplace_search]
+num_t = 21
+num_x = 13
+num_y = 13
+theta = [ -0.06, 0.06,]
+x = [ -0.06, 0.06,]
+y = [ -0.06, 0.06,]
+
+[slam.yelli.imu_manual_search]
+num_t = 23
+num_x = 17
+num_y = 37
+theta = [ -0.08, 0.08,]
+x = [ -0.08, 0.08,]
+y = [ -0.18, 0.18,]
+
+[slam.yelli.imu_reverse_search]
+num_t = 21
+num_x = 13
+num_y = 17
+theta = [ -0.06, 0.06,]
+x = [ -0.06, 0.06,]
+y = [ -0.3, 0.04,]
+
+[slam.yelli.imu_symmetric_search]
+num_t = 21
+num_x = 13
+num_y = 15
+theta = [ -0.06, 0.06,]
+x = [ -0.06, 0.06,]
+y = [ -0.15, 0.15,]
+
+[slam.yelli.initial_search]
+num_t = 31
+num_x = 100
+num_y = 100
+theta = [ -0.15, 0.15,]
+x = [ -1, 1,]
+y = [ -1, 1,]
+
+[slam.yelli.inplace_search]
+num_t = 41
+num_x = 13
+num_y = 13
+theta = [ -0.12, 0.12,]
+x = [ -0.06, 0.06,]
+y = [ -0.06, 0.06,]
+
+[slam.yelli.manual_search]
+num_t = 17
+num_x = 17
+num_y = 37
+theta = [ -0.08, 0.08,]
+x = [ -0.08, 0.08,]
+y = [ -0.18, 0.18,]
+
+[slam.yelli.reverse_search]
+num_t = 41
+num_x = 13
+num_y = 17
+theta = [ -0.12, 0.12,]
+x = [ -0.06, 0.06,]
+y = [ -0.3, 0.04,]
+
+[slam.yelli.symmetric_search]
+num_t = 41
+num_x = 13
+num_y = 15
+theta = [ -0.12, 0.12,]
+x = [ -0.06, 0.06,]
+y = [ -0.15, 0.15,]
+
+[transforms.frames.control]
+factory_transform_r = [ [ 1.0, 0.0, 0.0,], [ 0.0, 1.0, 0.0,], [ 0.0, 0.0, 1.0,],]
+factory_transform_t = [ 0.0, 0.0, 0.0,]
+
+[transforms.lidar.0]
+calibrate = true
+calibration_reference = "mule"
+factory_transform_r = [ [ 1.0, 0.0, 0.0,], [ 0.0, 1.0, 0.0,], [ 0.0, 0.0, 1.0,],]
+factory_transform_t = [ 0.355, 0.55, 0.08,]
+
+[transforms.lidar.1]
+calibrate = true
+calibration_reference = "mule"
+factory_transform_r = [ [ -1.0, 0.0, 0.0,], [ 0.0, -1.0, 0.0,], [ 0.0, 0.0, 1.0,],]
+factory_transform_t = [ -0.355, -0.55, 0.08,]
+
+[transforms.rgbd.front]
+calibrate = true
+calibration_reference = "mule"
+factory_transform_r = [ [ 1.0, 0.0, 0.0,], [ 0.0, 0.0, 1.0,], [ 0.0, -1.0, 0.0,],]
+factory_transform_t = [ 0.0, 0.6, 0.05,]
+
+[transforms.rgbd.rear]
+calibrate = true
+calibration_reference = "mule"
+factory_transform_r = [ [ -1.0, 0.0, 0.0,], [ 0.0, 0.0, -1.0,], [ 0.0, -1.0, 0.0,],]
+factory_transform_t = [ 0.0, -0.6, 0.05,]
+
+[ekf.vw.measurement_model.front_dual_enc]
+sigma_left_enc = 5.3
+sigma_right_enc = 5.3
+
+[ekf.vw.measurement_model.gyro_left_enc]
+sigma_gyro = 0.6
+sigma_left_enc = 1.3
+
+[ekf.vw.measurement_model.gyro_right_enc]
+sigma_gyro = 0.6
+sigma_right_enc = 1.3
+
+[ekf.vw.measurement_model.gyro_z]
+sigma_gyro = 0.6
+
+[ekf.vw.measurement_model.rear_hub_steer]
+sigma_hub_v_max = 2.5
+sigma_hub_v_min = 0.5
+sigma_hub_v_slope = 1.0
+sigma_steer = 1.3
+
+[ekf.vw.motion_model.constant_vw]
+sigma_v = 10.5
+sigma_w = 10.4
+
+[ekf.vw.motion_model.constant_vw_user_input]
+sigma_v = 10.5
+sigma_w = 10.3
+v_decay_tconst = 0.1
+v_rise_tconst = 0.4
+w_decay_tconst = 0.1
+w_rise_tconst = 0.1
+
+[ekf.vw.motion_model.vw_dot]
+sigma_v = 10.5
+sigma_vdot = 10.0
+sigma_w = 10.4
+sigma_wdot = 11.0
+
+[perception.drivable.rgbd.front]
+disabled = false
+estimate_tilt = false
+max_z_diff_absolute = 0.04
+trim = [ 0, 0, 0, 0,]
+use_every_nth = 9
+xlim = [ -1.0, 1.0,]
+ylim = [ 0.0, 3.0,]
+zlim = [ -0.5, 2.0,]
+
+[perception.drivable.rgbd.rear]
+disabled = false
+estimate_tilt = false
+max_z_diff_absolute = 0.04
+trim = [ 0, 0, 0, 0,]
+use_every_nth = 9
+xlim = [ -1.0, 1.0,]
+ylim = [ -1.5, 0.0,]
+zlim = [ -0.5, 2.0,]
